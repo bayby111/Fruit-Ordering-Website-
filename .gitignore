@@ -1,8 +1,8 @@
 # Loại trừ node_modules của frontend
-font_end/fruitsapp_admin/node_modules/
-font_end/fruitsapp_admin/build/
-font_end/fruitsapp_user/node_modules/
-font_end/fruitsapp_user/build/
+font_end/fruitsapp_admin/node_modules/*
+font_end/fruitsapp_admin/build/*
+font_end/fruitsapp_user/node_modules/*
+font_end/fruitsapp_user/build/*
 
 
 # Loại trừ các file build và cache của .NET Core backend
