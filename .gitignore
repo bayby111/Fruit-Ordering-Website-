@@ -1,0 +1,21 @@
+# Loại trừ node_modules của frontend
+font_end/fruitsapp_admin/node_modules/
+font_end/fruitsapp_admin/build/
+font_end/fruitsapp_user/node_modules/
+font_end/fruitsapp_user/build/
+
+
+# Loại trừ các file build và cache của .NET Core backend
+back_end/fruitsapp_backend/bin/
+back_end/fruitsapp_backend/obj/
+back_end/.vs/
+back_end/*.db
+back_end/*.log
+
+# Các file hệ điều hành (OS specific)
+.DS_Store
+Thumbs.db
+
+# Các tệp log
+*.log
+
