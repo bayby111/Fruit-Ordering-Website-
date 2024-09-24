@@ -59,7 +59,7 @@ namespace fruitsapp_backend.Service.Implementations
                         order_id = result_order.Id,
                         product_id = items.product_id,
                         quantity = items.quantity,
-                        price_id = items.price_id
+                        unit_price = items.unit_price
                     };
                     newListProduct.Add(newOrderProduct);
                 }

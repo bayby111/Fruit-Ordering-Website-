@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import AuthController from '../../Controllers/authController';
+import AuthController from 'Controllers/authController';
 import { Link } from 'react-router-dom';
-import useAuth from '../../Hooks/useAuth';
+import useAuth from 'Hooks/useAuth';
 
 const ChangePassword = () => {
     const {user} = useAuth();

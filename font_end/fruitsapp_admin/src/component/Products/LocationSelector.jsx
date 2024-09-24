@@ -11,7 +11,7 @@ const LocationSelector = ({onLocationChange = {}}) => {
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedDistrict, setSelectedDistrict] = useState('');
 
-//   // Gọi hàm từ component cha khi người dùng chọn đủ tỉnh, huyện, phường
+   // Gọi hàm từ component cha khi người dùng chọn đủ tỉnh, huyện, phường
   useEffect(() => {
     if (selectedProvince && selectedDistrict ) {
       onLocationChange({

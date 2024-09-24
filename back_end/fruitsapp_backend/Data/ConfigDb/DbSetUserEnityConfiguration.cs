@@ -19,6 +19,7 @@ namespace fruitsapp_backend.Data.ConfigDb
                 .HasForeignKey(at => at.role_id);
 
             // Configure properties
+            builder.Property(u => u.ui).HasMaxLength(255);
             builder.Property(u => u.name).HasMaxLength(255);
             builder.Property(u => u.avatar_url).HasMaxLength(255);
             builder.Property(u => u.email).HasMaxLength(255);

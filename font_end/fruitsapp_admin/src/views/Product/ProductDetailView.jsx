@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import 'swiper/swiper-bundle.css';
-import CradImageGallery from '../../component/CardImage/CradImageGallery';
+import CradImageGallery from 'component/CardImage/CradImageGallery';
 
 
 const ProductDetailView = () => {

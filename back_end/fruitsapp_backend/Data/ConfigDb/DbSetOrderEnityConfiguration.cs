@@ -19,8 +19,11 @@ namespace fruitsapp_backend.Data.ConfigDb
                 .HasForeignKey(at => at.customer_id);
 
             // Configure properties
+            builder.Property(o => o.invoice_code).HasMaxLength(255);
             builder.Property(o => o.total_payment).HasMaxLength(100);
-            builder.Property(o => o.cancel_reason).HasMaxLength(100);
+            builder.Property(o => o.payment_method).HasMaxLength(100);
+            builder.Property(o => o.notes).HasMaxLength(100);
+            builder.Property(o => o.cancel_reason).HasMaxLength(255);
         
 
             // DateTime doesn't have a max length
@@ -28,6 +31,7 @@ namespace fruitsapp_backend.Data.ConfigDb
             // Set default values
             builder.Property(o => o.create_at).HasDefaultValue(DateTime.Now);
             builder.Property(o => o.update_at).HasDefaultValue(DateTime.Now);
+            builder.Property(o => o.isDelete).HasDefaultValue(false);
 
         }
     }

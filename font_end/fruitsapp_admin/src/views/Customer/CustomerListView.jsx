@@ -1,8 +1,8 @@
 
 
 import React, { useState } from 'react';
-import Search from '../../component/Search/Search';
-import Pagination from '../../component/Navigation/Pagination';
+import Search from 'component/Search/Search';
+import Pagination from 'component/Navigation/Pagination';
 import { useNavigate } from 'react-router-dom';
 
 const CustomerListView = () => {

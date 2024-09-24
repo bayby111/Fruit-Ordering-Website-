@@ -5,8 +5,8 @@ import Login from "../views/Login/login";
 import Profile from "../views/Account/profile";
 import UserList from "../views/User/user_list";
 import CreateUser from "../views/User/create_user";
-// import AuthGuard from "../guards/AuthGuard";
-// import GuestGuard from "../guards/GuestGuard";
+ import AuthGuard from "../guards/AuthGuard";
+ import GuestGuard from "../guards/GuestGuard";
 import NotFound from "../views/404Page";
 import ChangePassword from "../views/Account/changePassword";
 import NotificationSettings from "../views/Account/notificationSetting";
@@ -32,8 +32,8 @@ function AppRouter(){
         <Router>
                 <Routes>
                     
-                    {/* <Route path="/" element={<AuthGuard><Layout/></AuthGuard>} > */}
-                    <Route path="/" element={<Layout/>} >
+                    <Route path="/" element={<AuthGuard><Layout/></AuthGuard>} >
+                    {/* <Route path="/" element={<Layout/>} > */}
                        <Route index element={<Dashboard />} />
                        <Route path="/order" element={<OrderListView/>}/>
                        <Route path="/order-details" element={<OrderDetailView />} />      
@@ -51,8 +51,8 @@ function AppRouter(){
                        <Route path="/index-list-role" element={<RoleList/>}/>
                        <Route path="/setting" element={<Settings/>}/>
                     </Route>
-                    {/* <Route path="login" element={<GuestGuard><Login/></GuestGuard>}/> */}
-                    <Route path="login" element={<Login/>}/>
+                    <Route path="login" element={<GuestGuard><Login/></GuestGuard>}/>
+                    {/* <Route path="login" element={<Login/>}/> */}
                     <Route path="/profile" element={<Profile/>}/>
                     <Route path="/change-password" element={<ChangePassword/>}/>
                     <Route path="/notification-settings" element={<NotificationSettings/>}/>

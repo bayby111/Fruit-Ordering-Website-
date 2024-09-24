@@ -24,7 +24,6 @@ namespace fruitsapp_backend.Repository.Implementations
          
             _db.origin_product.Add(model);
             await SaveChangesAsync();
-
             return model;
         }
 
@@ -64,9 +63,8 @@ namespace fruitsapp_backend.Repository.Implementations
 
             if(origin != null)
             {
-                origin.country = model.city;
-                origin.city = model.city;
-                origin.province = model.city;
+                origin.country = model.country;
+                origin.province = model.province;
                 origin.district = model.district;
                 await SaveChangesAsync();
                 return origin;

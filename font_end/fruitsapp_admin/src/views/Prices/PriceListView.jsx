@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
-import Pagination from '../../component/Navigation/Pagination';
-import Search from '../../component/Search/Search';
+import React, { useEffect, useState } from 'react';
+import Pagination from 'component/Navigation/Pagination';
+import Search from 'component/Search/Search';
+import PriceProductController from 'Controllers/priceProductController';
 import AddPriceModalView from './AddPriceModalView';
 
 const PriceListView = () => {
     const initialPrices = [
-        { id: 1, product: 'Xoài Cát Hòa Lộc', price: 50, currency: 'VND', date: '09/12/2024'},
-        { id: 2, product: 'Chuối Laba', price: 20, currency: 'VND', date: '09/10/2024'},
-        { id: 3, product: 'Thanh Long Ruột Đỏ', price: 30, currency: 'VND', date: '09/11/2024'},
-        { id: 4, product: 'Sầu Riêng Ri6', price: 100, currency: 'VND', date: '09/09/2024'},
-        { id: 5, product: 'Cam Sành', price: 25, currency: 'VND', date: '09/08/2024'},
+        { id: 1, product: 'Xoài Cát Hòa Lộc', price: 50, currency: 'VND', date: '09/12/2024' },
+        { id: 2, product: 'Chuối Laba', price: 20, currency: 'VND', date: '09/10/2024' },
+        { id: 3, product: 'Thanh Long Ruột Đỏ', price: 30, currency: 'VND', date: '09/11/2024' },
+        { id: 4, product: 'Sầu Riêng Ri6', price: 100, currency: 'VND', date: '09/09/2024' },
+        { id: 5, product: 'Cam Sành', price: 25, currency: 'VND', date: '09/08/2024' },
     ];
 
     const [prices, setPrices] = useState(initialPrices);
-
     const [pageNumber, setPageNumber] = useState(1); // Current page
     const [pageSize, setPageSize] = useState(5); // Number of users per page
     const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+        const fetchPrice = async () => {
+            const result = await PriceProductController.get_list(pageNumber, pageSize);
+            if (result.success) {
+                console.log(result.message);
+                setPrices(result.price);
+            } else {
+                console.log(result.message);
+            }
+        }
+        fetchPrice();
+    }, [prices]);
 
     // Lọc danh sách user dựa trên searchTerm
     const searchPrice = prices.filter((p) =>
@@ -79,8 +92,8 @@ const PriceListView = () => {
         );
     };
     const handleAddPrice = (newPrice) => {
-         // Kiểm tra giá trị lấy được từ form
-         console.log("Giá trị từ form:", newPrice); // 
+        // Kiểm tra giá trị lấy được từ form
+        console.log("Giá trị từ form:", newPrice); // 
         setPrices([...prices, { ...newPrice, id: prices.length + 1 }]);
     };
 
@@ -89,7 +102,7 @@ const PriceListView = () => {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-semibold mb-4">Quản lý Giá Bán Trái Cây</h1>
-            <AddPriceModalView products={prices} onAddPrice={(p)=>handleAddPrice(p)}/>
+            <AddPriceModalView products={prices} onAddPrice={(p) => handleAddPrice(p)} />
             <div className="flex justify-between mb-4">
                 <Search
                     searchTerm={searchTerm}
@@ -104,7 +117,7 @@ const PriceListView = () => {
                     </select>
                 </div>
             </div>
-            <PriceTable propTable={searchPrice} />
+            {prices.length > 0 ? (<PriceTable propTable={searchPrice} />): " no data"}
             <Pagination
                 pageSize={pageSize}
                 pageNumber={pageNumber}

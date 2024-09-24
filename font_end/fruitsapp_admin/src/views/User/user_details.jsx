@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import UserController from '../../Controllers/userController';
-import RoleController from '../../Controllers/roleController';
+import UserController from 'Controllers/userController';
+import RoleController from 'Controllers/roleController';
 const avatarUrlBase = process.env.REACT_APP_AVATAR_URL;
 function UserDetails() {
   const { id } = useParams(); // Lấy ID từ URL

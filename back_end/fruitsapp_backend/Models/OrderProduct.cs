@@ -11,8 +11,10 @@ namespace fruitsapp_backend.Models
         public int order_id { set; get; }
         public int? product_id { set; get; }
         public int? quantity { set; get; }
-        public int? price_id { set; get; }
-        public int? total_price { set; get; }
+        // Lưu giá của sản phẩm tại thời điểm đặt hàng
+        public decimal unit_price { set; get; }
+        // Lưu tổng giá (đơn giá * số lượng)
+        public decimal? total_price { set; get; }
         public DateTime create_at { set; get; }
         public DateTime update_at { set; get; }
         public bool isDelete { set; get; }

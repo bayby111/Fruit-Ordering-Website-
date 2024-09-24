@@ -22,7 +22,6 @@ namespace fruitsapp_backend.Data.ConfigDb
             builder.Property(f => f.country).HasMaxLength(100);
             builder.Property(f => f.province).HasMaxLength(100);
             builder.Property(f => f.district).HasMaxLength(100);
-            builder.Property(f => f.city).HasMaxLength(100);
             builder.Property(f => f.description).HasMaxLength(250);
 
             // DateTime doesn't have a max length

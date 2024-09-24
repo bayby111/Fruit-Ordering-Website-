@@ -1,89 +1,120 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import LocationSelector from './LocationSelector';
+import ProductController from 'Controllers/productController';
+import Swal from 'sweetalert2';
+import LocationSelector from 'component/Products/LocationSelector';
 
+const initProduct = {
+    title: '',
+    description: '',
+    quantity: 0 || '',
+    image: "", // Sẽ lưu file hình ảnh chính
+    listimage: [] ,
+    origin: {
+        province: "",
+        district: "",
+    }
+}
 const AddProductView = () => {
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        quantity: 0,
-        origin_id: '',
-        image: "", // Sẽ lưu file hình ảnh chính
-        listimage: [] // Lưu danh sách các hình ảnh khác
-    });
 
-    const [errors, setErrors] = useState({
-        title: '',
-        description: '',
-        quantity: '',
-        origin_id: '',
-        image: '',
-        listimage: ''
-    });
+    const [product, setProduct] = useState(initProduct);
+    const [errors, setErrors] = useState(initProduct);
+    const quillRef = useRef(null);  // Tạo ref cho ReactQuill
 
 
     // Hàm để cập nhật dữ liệu của form
     const handleChange = (key, value) => {
-        setFormData({ ...formData, [key]: value });
+        setProduct({ ...product, [key]: value });
     };
 
+    const handleChangeOrigin = (newOrigin) => {
+        setProduct({ ...product, origin: newOrigin  });
+    }
 
     // Hàm để gửi dữ liệu khi nhấn Submit
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        if (validateForm()) {
+            
+         console.log(product);
+            const formData = new FormData();
 
-        if(validateForm()){
-            console.log('Submit data:', formData);
+            // Thêm các trường đơn giản vào formData
+            formData.append("title", product.title);
+            formData.append("description", product.description);
+            formData.append("quantity", product.quantity);
+
+            // Thêm ảnh đại diện vào formData (file gốc, không phải blob URL)
+            formData.append("image", product.image);
+
+            // Thêm danh sách hình ảnh vào formData
+            product.listimage.forEach((img) => {
+                formData.append(`listImage`, img);
+            });
+
+            // Thêm thông tin nguồn gốc vào formData
+            formData.append("origin[province]", product.origin.province);
+            formData.append("origin[district]", product.origin.district);
+
+            // Log toàn bộ dữ liệu trong FormDat
+
+            const result = await ProductController.create(formData);
+            if (result.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: result.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: result.message,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+
+            }
         }
-    
         // Thực hiện API call hoặc xử lý dữ liệu ở đây
     };
 
     const validateForm = () => {
         let newErrors = {};
         let isValid = true;
-        
+
         // Kiểm tra tên sản phẩm
-        if (!formData.title.trim()) {
+        if (!product.title.trim()) {
             newErrors.title = 'Tên sản phẩm không được để trống';
             isValid = false;
         }
-    
+
         // Kiểm tra mô tả sản phẩm
-        if (!formData.description.trim()) {
+        if (!product.description.trim()) {
             newErrors.description = 'Mô tả sản phẩm không được để trống';
             isValid = false;
         }
-    
+
         // Kiểm tra số lượng sản phẩm
-        if (formData.quantity <= 0) {
+        if (product.quantity <= 0) {
             newErrors.quantity = 'Số lượng sản phẩm phải lớn hơn 0';
             isValid = false;
         }
-    
-        // Kiểm tra nguồn gốc sản phẩm
-        if (!formData.origin_id.trim()) {
-            newErrors.origin_id = 'Nguồn gốc sản phẩm không được để trống';
-            isValid = false;
-        }
-    
         // Kiểm tra ảnh đại diện
-        if (!formData.image) {
+        if (!product.image) {
             newErrors.image = 'Ảnh đại diện không được để trống';
             isValid = false;
         }
-    
+
         // Kiểm tra danh sách ảnh
-        if (formData.listimage.length === 0) {
+        if (product.listimage.length === 0) {
             newErrors.listimage = 'Danh sách hình ảnh không được để trống';
             isValid = false;
         }
-    
+
         setErrors(newErrors);
         return isValid;
     };
-    
-
 
 
     return (
@@ -96,12 +127,12 @@ const AddProductView = () => {
                     <div>
                         <h3 className="text-center mb-2 font-medium">Ảnh Đại diện</h3>
                         <div className="border-2 border-dashed border-green-500 p-2 h-64 flex items-center justify-center relative">
-                            {!formData.image && (
+                            {!product.image && (
                                 <p className="absolute text-gray-500">Click chọn ảnh để tải lên!</p>
                             )}
-                            {formData.image && (
+                            {product.image && (
                                 <img
-                                    src={formData.image}
+                                    src={product.image}
                                     alt="Original"
                                     className="w-full h-full object-contain"
                                 />
@@ -112,15 +143,15 @@ const AddProductView = () => {
                                 onChange={(e) => {
                                     const selectedFile = e.target.files[0];
                                     if (selectedFile) {
-                                        const imageUrl = URL.createObjectURL(selectedFile); // Tạo URL blob
-                                        setFormData({
-                                            ...formData,
-                                            image: imageUrl // Thêm URL blob vào danh sách hình ảnh
+                                        // const imageUrl = URL.createObjectURL(selectedFile); // Tạo URL blob
+                                        setProduct({
+                                            ...product,
+                                            image: selectedFile // Thêm URL gốc
                                         });
                                     }
                                 }}
                             />
-                              
+
                         </div>
                         {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
                     </div>
@@ -130,7 +161,7 @@ const AddProductView = () => {
                             <label className="block text-lg font-medium text-gray-600 mb-2">Tên Sản Phẩm</label>
                             <input
                                 type="text"
-                                value={formData.title}
+                                value={product.title}
                                 onChange={(e) => handleChange('title', e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 placeholder="Nhập tên của sẩn phẩm..."
@@ -144,7 +175,7 @@ const AddProductView = () => {
                             <input
                                 type="number"
                                 min="0"
-                                value={formData.quantity}
+                                value={product.quantity}
                                 onChange={(e) => handleChange('quantity', parseInt(e.target.value))}
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 placeholder="Nhập số lượng của sẩn phẩm"
@@ -158,7 +189,8 @@ const AddProductView = () => {
                     <div className="col-span-2">
                         <label className="block text-lg font-medium text-gray-600 mb-2">Mô tả sẩn phẩm</label>
                         <ReactQuill
-                            value={formData.description}
+                            ref={quillRef}
+                            value={product.description}
                             onChange={(value) => handleChange('description', value)}
                             className="bg-white"
                             theme="snow" // Giao diện chuẩn của quill
@@ -172,37 +204,36 @@ const AddProductView = () => {
                     {/* Nguồn gốc */}
                     <div className="col-span-1">
                         <label className="block text-lg font-medium text-gray-600 mb-2">Nguồn gốc sẩn phẩm</label>
-                        <LocationSelector onLocationChange={()=>{}} />
+                        <LocationSelector onLocationChange={handleChangeOrigin} />
                     </div>
-
 
                     {/* Hiển thị danh sách hình ảnh */}
                     <div className="col-span-2">
                         <label className="block text-lg font-medium text-gray-600 mb-2">Danh sách hình ảnh</label>
                         {/* input hình ảnh */}
                         <input type="file" className="w-full border border-gray-300 rounded-lg px-4 py-3 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            onChange={(e) => {
+                                multiple  
+                                onChange={(e) => {
                                 const selectedFile = e.target.files[0];
                                 if (selectedFile) {
-                                    const imageUrl = URL.createObjectURL(selectedFile); // Tạo URL blob
-                                    setFormData({
-                                        ...formData,
-                                        listimage: [...formData.listimage, imageUrl] // Thêm URL blob vào danh sách hình ảnh
+                                    setProduct({
+                                        ...product,
+                                        listimage: [...product.listimage, selectedFile] // Thêm URL blob vào danh sách hình ảnh
                                     });
                                 }
                             }} />
-                            {errors.listimage && <p className="text-red-500 text-sm mt-1">{errors.listimage}</p>}
+                        {errors.listimage && <p className="text-red-500 text-sm mt-1">{errors.listimage}</p>}
                         {/* Hiển thị danh sách hình đã dc chọn */}
                         <div className="grid grid-cols-4 gap-4 mt-6">
-                            {formData.listimage.map((image, index) => (
+                            {product.listimage.map((image, index) => (
                                 <div key={index} className="relative">
                                     <img src={image} alt="product" className="w-full h-32 object-cover rounded-lg" />
                                     <button
                                         onClick={() => {
                                             // xoá hình ảnh từ danh sách
-                                            setFormData({
-                                                ...formData,
-                                                listimage: formData.listimage.filter((img) => img !== image)
+                                            setProduct({
+                                                ...product,
+                                                listimage: product.listimage.filter((img) => img !== image)
                                             });
                                         }}
                                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"

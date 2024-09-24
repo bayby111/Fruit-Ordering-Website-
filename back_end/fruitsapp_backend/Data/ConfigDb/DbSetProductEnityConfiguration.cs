@@ -18,7 +18,8 @@ namespace fruitsapp_backend.Data.ConfigDb
                     .WithMany()
                     .HasForeignKey(at => at.origin_id);
 
-                // Configure properties
+            // Configure properties
+                builder.Property(p => p.code).HasMaxLength(255);
                 builder.Property(p => p.title).HasMaxLength(255);
                 builder.Property(p => p.description).HasMaxLength(500);
                 

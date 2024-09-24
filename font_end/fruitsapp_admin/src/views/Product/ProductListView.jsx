@@ -1,54 +1,34 @@
 
 
-import React, { useState } from 'react';
-import Search from '../../component/Search/Search';
-import Pagination from '../../component/Navigation/Pagination';
+import React, { useEffect, useState } from 'react';
+import Search from 'component/Search/Search';
+import Pagination from 'component/Navigation/Pagination';
 import { useNavigate } from 'react-router-dom';
+import ProductController from 'Controllers/productController';
+import NoDataComponent from 'component/NoDataComponent';
 
 const ProductListView = () => {
     // Sample data for products
-    const sampleProducts = [
-        {
-            id: 1,
-            title: "Mangoes",
-            image: "https://upload.wikimedia.org/wikipedia/commons/9/90/Hapus_Mango.jpg",
-            description: "Fresh mangoes from Australia",
-            quantity: 100,
-            status: "còn hàng",
-            create_at: "2023-08-01T12:00:00",
-            update_at: "2023-09-01T12:00:00"
-        },
-        {
-            id: 2,
-            title: "Apples",
-            image: "https://upload.wikimedia.org/wikipedia/commons/1/15/Red_Apple.jpg",
-            description: "Crisp and juicy apples from New Zealand",
-            quantity: 150,
-            status: "hết hàng",
-            create_at: "2023-08-10T12:00:00",
-            update_at: "2023-09-05T12:00:00"
-        },
-        {
-            id: 3,
-            title: "Bananas",
-            image: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Banana-Single.jpg",
-            description: "Sweet bananas from Thailand",
-            quantity: 200,
-            status: "còn hàng",
-            create_at: "2023-07-15T12:00:00",
-            update_at: "2023-08-30T12:00:00"
-        }
-    ];
-
-    const [products, setProducts] = useState(sampleProducts);
+    const [products, setProducts] = useState([]);
     const navigate = useNavigate();
-
-
     const [pageNumber, setPageNumber] = useState(1); // Current page
     const [pageSize, setPageSize] = useState(5); // Number of users per page
     const [searchTerm, setSearchTerm] = useState('');
     const [quantityFilter, setQuantityFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
+
+    useEffect(() => {
+        const fetchPoduct = async () => {
+            const result = await ProductController.get_list(pageNumber, pageSize);
+            if (result.success) {
+                console.log(result.message);
+                setProducts(result.products);
+            } else {
+                console.log(result.message);
+            }
+        }
+        fetchPoduct();
+    }, [products]);
 
     // Lọc danh sách user dựa trên searchTerm
     // Lọc danh sách sản phẩm dựa trên searchTerm, quantityFilter và statusFilter
@@ -80,12 +60,8 @@ const ProductListView = () => {
         return true;
     });
 
-
-
     // Tính toán số lượng trang
     const totalPages = Math.ceil(filteredProducts.length / pageSize);
-
-
 
     const ProductRow = ({ propRow }) => {
         return (
@@ -166,7 +142,7 @@ const ProductListView = () => {
                     }}
                     placeholder='Tìm kiếm tên trái cây, sầu riêng...'
                 />
-                <di className="flex space-x-2">
+                <div className="flex space-x-2">
                     {/* Bộ lọc theo Số lượng trong kho */}
                     <select
                         className="border border-gray-300 rounded-lg p-2"
@@ -193,9 +169,9 @@ const ProductListView = () => {
                         <option value="available">Còn hàng</option>
                         <option value="unavailable">Hết hàng</option>
                     </select>
-                </di>
+                </div>
             </div>
-            <ProductTable propTable={filteredProducts} />
+            {products.length > 0 ? (<ProductTable propTable={filteredProducts} />): <NoDataComponent/>}
             <Pagination
                 pageSize={pageSize}
                 pageNumber={pageNumber}

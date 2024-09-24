@@ -20,6 +20,7 @@ namespace fruitsapp_backend.Data.ConfigDb
 
             // Configure properties
             builder.Property(u => u.description).HasMaxLength(255);
+            builder.Property(u => u.price).HasPrecision(18,2);
             builder.Property(u => u.currency).HasMaxLength(255);
 
             // DateTime doesn't have a max length

@@ -22,7 +22,8 @@ namespace fruitsapp_backend.Data.ConfigDb
                 .HasForeignKey(at => at.product_id);
 
             // Configure properties
-
+            builder.Property(o => o.unit_price).HasPrecision(18,2);
+            builder.Property(o => o.total_price).HasPrecision(18, 2);
             // DateTime doesn't have a max length
 
             // Set default values

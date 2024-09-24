@@ -6,7 +6,7 @@ namespace fruitsapp_backend.Repository.Interfaces
 {
 	public interface IImageRepository
 	{
-		Task<List<ImageProduct>> create(List<ImageProduct> model);
+		Task<ImageProduct> CreateImageProductAsync(ImageProduct model);
 	}
 }
 

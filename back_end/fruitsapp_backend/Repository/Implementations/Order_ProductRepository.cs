@@ -26,7 +26,7 @@ namespace fruitsapp_backend.Repository.Implementations
                     order_id = items.order_id,
                     product_id = items.product_id,
                     quantity = items.quantity,
-                    price_id = items.price_id
+                    unit_price = items.unit_price
                 };
 
                 _db.order_product.Add(newOrderProduct);

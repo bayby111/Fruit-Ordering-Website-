@@ -8,6 +8,7 @@ namespace fruitsapp_backend.Models
     {
         [Key]
         public int Id { set; get; }
+        public string? code { set; get; }
         public string? title { set; get; }
         public string? image { set; get; }
         public string? description { set; get; }

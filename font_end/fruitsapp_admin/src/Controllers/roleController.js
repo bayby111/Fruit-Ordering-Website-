@@ -1,6 +1,6 @@
 
-import RoleRequest from "../API/RoleRequest/RoleRequest";
-import ErrorHandler from "../Utils/errorHandler";
+import RoleRequest from "API/RoleRequest/RoleRequest";
+import ErrorHandler from "Utils/errorHandler";
 
 
 const RoleController = {

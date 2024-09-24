@@ -1,6 +1,6 @@
-import UserRequest from "../API/UserRequest/userRequest";
-import User from "../Models/User";
-import ErrorHandler from "../Utils/errorHandler";
+import UserRequest from "API/UserRequest/userRequest";
+import User from "Models/User";
+import ErrorHandler from "Utils/errorHandler";
 
 const UserController = {
     getAllUser: async (pageNumber, pageSize) => {

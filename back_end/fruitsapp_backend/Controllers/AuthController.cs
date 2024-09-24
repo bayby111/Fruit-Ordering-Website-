@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using fruitsapp_backend.Models;
 using fruitsapp_backend.Models.DTOs;
 using fruitsapp_backend.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -24,9 +26,50 @@ namespace fruitsapp_backend.Controllers
             _authService = authService;
         }
 
-
         // login
         [AllowAnonymous]
+        [HttpPost]
+        [Route("create-passwords")]
+        public async Task<IActionResult> createPassword([FromBody] string passswords)
+        {
+            try
+            {
+                var result = GenerateProductCode(passswords);
+                return Ok(new { status = "success", message = "Login successfully!", passswords = result });
+
+            }
+            catch (ArgumentException e)
+            {
+                // Bắt lỗi ArgumentException và trả về phản hồi BadRequest với thông điệp lỗi
+                return BadRequest(new { status = "error", message = e.Message });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { status = "error", message = "An error occurred while processing your request", error = e.Message });
+            }
+        }
+        
+
+      private string GenerateProductCode(string productTitle)
+        {
+            // Define prefix, e.g., "PRD"
+            string prefix = "SP";
+
+            // Get the current timestamp in the "yyyyMMddHHmmss" format
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            // Remove all spaces and special characters from the product title
+            string sanitizedTitle = Regex.Replace(productTitle, @"[^a-zA-Z0-9]", "");
+
+            // Combine the parts to create the product code
+            string productCode = $"{prefix}-{sanitizedTitle}-{timestamp}";
+
+            return productCode;
+        }
+
+
+    // login
+    [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] Login model)

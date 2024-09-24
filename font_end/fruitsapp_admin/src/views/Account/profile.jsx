@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { convertDate } from "../../Utils/convertDate";
-import AuthController from "../../Controllers/authController";
-import useLoading from "../../Hooks/useLoading";
+import { convertDate } from "Utils/convertDate";
+import AuthController from "Controllers/authController";
+import useLoading from "Hooks/useLoading";
 import ButtonWithLoader from "../../component/Button/ButtonWithLoader";
 import Swal from "sweetalert2";
 

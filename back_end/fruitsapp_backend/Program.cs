@@ -42,7 +42,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization(option =>
 {
     option.AddPolicy("PolicyUser", policy => policy.RequireClaim(ClaimTypes.Role, "USER"));
-    option.AddPolicy("AdminOrUser", policy=> policy.RequireClaim(ClaimTypes.Role, "Admin", "User"));
+    option.AddPolicy("AdminOrUser", policy=> policy.RequireClaim(ClaimTypes.Role, "Administrator", "User role"));
 });
 
 // Thêm d?ch v? CORS

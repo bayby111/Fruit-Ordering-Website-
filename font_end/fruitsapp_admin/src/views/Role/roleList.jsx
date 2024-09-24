@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import RoleController from '../../Controllers/roleController';
+import RoleController from 'Controllers/roleController';
 import Swal from 'sweetalert2';
-import { convertDate } from '../../Utils/convertDate';
+import { convertDate } from 'Utils/convertDate';
 
 const RoleList = () => {
     const [roles, setRoles] = useState([]);

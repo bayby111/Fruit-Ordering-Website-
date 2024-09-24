@@ -1,5 +1,5 @@
 
-import axiosInstance from "../configAxiosRequest";
+import axiosInstance from "API/configAxiosRequest";
 
 const End_Point_Role = {
 

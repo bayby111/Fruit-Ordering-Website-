@@ -1,7 +1,7 @@
 
-import AuthRequest from "../API/AuthRequest/authRequest";
-import User from "../Models/User";
-import ErrorHandler from "../Utils/errorHandler";
+import AuthRequest from "API/AuthRequest/authRequest";
+import User from "Models/User";
+import ErrorHandler from "Utils/errorHandler";
 
 
 const AuthController = {

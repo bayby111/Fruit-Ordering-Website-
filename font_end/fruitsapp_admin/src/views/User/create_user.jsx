@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RoleController from '../../Controllers/roleController';
-import AuthController from '../../Controllers/authController';
+import RoleController from 'Controllers/roleController';
 import Swal from 'sweetalert2';
+import AuthController from 'Controllers/authController';
 
 const CreateUser = () => {
     const navigate = useNavigate();

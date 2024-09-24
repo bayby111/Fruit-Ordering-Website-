@@ -11,7 +11,7 @@ import AuthController from '../../Controllers/authController';
 
 function Login() {
     const [email, setEmail] = useState("");
-    const  role_id = 2;
+    const  role_id = 1;
   
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});

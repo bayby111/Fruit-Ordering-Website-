@@ -14,33 +14,17 @@ namespace fruitsapp_backend.Repository.Implementations
             _db = context;
         }
 
-        public async Task<List<ImageProduct>> create(List<ImageProduct> model)
+        public async Task SaveChangesAsync()
         {
-            var imagesAdded = new List<ImageProduct>();
-            
-
-            foreach(var img in model)
-            {
-                var newImage = new ImageProduct
-                {
-                    product_id = img.product_id,
-                    image_url = img.image_url,
-                  
-                };
-
-                _db.image_product.Add(newImage);
-                imagesAdded.Add(newImage);
-
-            }
-            
             await _db.SaveChangesAsync();
+        }
 
-            if(imagesAdded != null)
-            {
-                return imagesAdded;
-            }
-
-            return null;
+        public async Task<ImageProduct> CreateImageProductAsync(ImageProduct model)
+        {
+            
+           _db.image_product.Add(model);
+           await SaveChangesAsync();
+            return model;
         }
     }
 }

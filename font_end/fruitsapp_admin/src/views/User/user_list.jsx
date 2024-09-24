@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HiOutlinePlusCircle, HiOutlineTrash, HiChevronDoubleDown } from 'react-icons/hi';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import UserController from '../../Controllers/userController';
-import useLoading from '../../Hooks/useLoading';
+import UserController from 'Controllers/userController';
+import useLoading from 'Hooks/useLoading';
 
 function UserList() {
   const navigate = useNavigate();

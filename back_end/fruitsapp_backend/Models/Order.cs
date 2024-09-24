@@ -23,7 +23,7 @@ namespace fruitsapp_backend.Models
 
 
         public Customer? Customer { set; get; }
-
+        public ICollection<OrderProduct>? OrderProduct { set; get; }
     }
 
 
